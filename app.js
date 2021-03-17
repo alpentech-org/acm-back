@@ -4,6 +4,9 @@ const mongoose = require('mongoose');
 
 const config = require('./config/config');
 
+// Routes
+const machinePeeringRoutes = require('./routes/machinePeering');
+
 const app = express();
 
 // Database connection middleware
@@ -22,6 +25,8 @@ app.use((req, res, next) => {
 });
 
 app.use(bodyParser.json());
+
+app.use('/api/machinePeering', machinePeeringRoutes);
 
 app.use((req, res) => {
    res.json({ message: 'Réponse Serveur !' });
