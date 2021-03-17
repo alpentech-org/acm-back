@@ -1,0 +1,11 @@
+{
+  "name": "acm-back",
+  "version": "1.0.0",
+  "description": "BackEnd for Auto-Control Monitoring",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Théo GUILHIN",
+  "license": "ISC"
+}
