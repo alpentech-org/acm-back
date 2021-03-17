@@ -2,13 +2,15 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 
+const config = require('./config/config');
+
 const app = express();
 
 // Database connection middleware
-mongoose.connect('mongodb://127.0.0.1:27017',
+mongoose.connect('mongodb://127.0.0.1:27017/' + config.dbName,
   { useNewUrlParser: true,
     useUnifiedTopology: true })
-  .then(() => console.log('Connexion à MongoDB réussie !'))
+  .then(() => console.log(`Connexion à MongoDB/${config.dbName} réussie !`))
   .catch(() => console.log('Connexion à MongoDB échouée !'));
 
 // CORS gestion
