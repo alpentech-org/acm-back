@@ -4,8 +4,11 @@ const mongoose = require('mongoose');
 
 const config = require('./config/config');
 
+const auth = require('./middleware/auth')
+
 // Routes
 const machinePeeringRoutes = require('./routes/machinePeering');
+const userRoutes = require('./routes/user');
 
 const app = express();
 
@@ -28,7 +31,8 @@ app.use((req, res, next) => {
 
 app.use(bodyParser.json());
 
-app.use('/api/machinePeering', machinePeeringRoutes);
+app.use('/api/user', userRoutes);
+app.use('/api/machinePeering', auth, machinePeeringRoutes);
 
 app.use((req, res) => {
   res.json({
