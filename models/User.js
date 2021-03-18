@@ -21,8 +21,8 @@ const userSchema = mongoose.Schema({
 });
 
 userSchema.path('email').validate(function (email) {
-   var emailRegex = /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/;
-   return emailRegex.test(email.text); // Assuming email has a text attribute
+   var alpenEmailRegex = /^[a-zA-Z0-9-\.]*@alpen-tech.com$/;
+   return alpenEmailRegex.test(email); // Assuming email has a text attribute
 }, 'L\'email doit être valide');
 
 userSchema.plugin(uniqueValidator, { message: 'La propriété {PATH} doit être unique'});
