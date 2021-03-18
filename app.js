@@ -10,9 +10,11 @@ const machinePeeringRoutes = require('./routes/machinePeering');
 const app = express();
 
 // Database connection middleware
-mongoose.connect('mongodb://127.0.0.1:27017/' + config.dbName,
-  { useNewUrlParser: true,
-    useUnifiedTopology: true })
+const dbConnectionString = config.dbUrl + ':' + config.dbPort + '/' + config.dbName;
+mongoose.connect(dbConnectionString, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+  })
   .then(() => console.log(`Connexion à MongoDB/${config.dbName} réussie !`))
   .catch(() => console.log('Connexion à MongoDB échouée !'));
 
@@ -29,7 +31,9 @@ app.use(bodyParser.json());
 app.use('/api/machinePeering', machinePeeringRoutes);
 
 app.use((req, res) => {
-   res.json({ message: 'Réponse Serveur !' });
+  res.json({
+    message: 'Réponse Serveur !'
+  });
 });
 
 module.exports = app;
