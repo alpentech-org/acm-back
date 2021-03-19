@@ -9,7 +9,10 @@ exports.signup = (req, res, next) => {
       const user = new User({
         login: req.body.login,
         email: req.body.email,
-        password: hash
+        password: hash,
+        coscomAdmin: req.body.coscomAdmin,
+        qualityAdmin: req.body.qualityAdmin,
+        configAdmin: req.body.configAdmin,
       });
       user.save()
         .then(() => res.status(201).json({
@@ -60,4 +63,38 @@ exports.login = (req, res, next) => {
     .catch(error => res.status(500).json({
       error
     }));
+};
+
+exports.setRights = (req, res, next) => {
+  User.findOne({
+      login: req.body.login
+    }).then(
+      (user) => {
+        user.coscomAdmin = req.body.coscomAdmin ? true : false;
+        user.qualityAdmin = req.body.qualityAdmin ? true : false;
+        if (req.body.configAdmin) {
+          user.configAdmin = true;
+        }
+        user.save()
+          .then(
+            () => res.status(201).json({
+              message: 'Droits modifiés'
+            })
+          )
+          .catch(
+            (error) => {
+              res.status(400).json({
+                error: error
+              })
+            }
+          )
+      }
+    )
+    .catch(
+      (error) => {
+        res.status(404).json({
+          error: error,
+        })
+      }
+    );
 };

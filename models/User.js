@@ -18,6 +18,18 @@ const userSchema = mongoose.Schema({
     type: String,
     required: true,
   },
+  coscomAdmin: {
+    type: Boolean,
+    default: false,
+  },
+  qualityAdmin: {
+    type: Boolean,
+    default: false,
+  },
+  configAdmin: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 userSchema.path('email').validate(function (email) {
