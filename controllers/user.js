@@ -49,7 +49,8 @@ exports.login = (req, res, next) => {
               'RANDOM_TOKEN_SECRET', {
                 expiresIn: '24h'
               }
-            )
+            ),
+            expiresIn: '24h',
           });
         })
         .catch(error => res.status(500).json({
