@@ -67,7 +67,7 @@ exports.login = (req, res, next) => {
 
 exports.setRights = (req, res, next) => {
   User.findOne({
-      login: req.body.login
+      _id: req.params.id
     }).then(
       (user) => {
         user.coscomAdmin = req.body.coscomAdmin ? true : false;
