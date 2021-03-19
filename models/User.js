@@ -21,14 +21,17 @@ const userSchema = mongoose.Schema({
   coscomAdmin: {
     type: Boolean,
     default: false,
+    required: true,
   },
   qualityAdmin: {
     type: Boolean,
     default: false,
+    required: true,
   },
   configAdmin: {
     type: Boolean,
     default: false,
+    required: true,
   },
 });
 
