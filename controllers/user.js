@@ -10,9 +10,9 @@ exports.signup = (req, res, next) => {
         login: req.body.login,
         email: req.body.email,
         password: hash,
-        coscomAdmin: req.body.coscomAdmin,
-        qualityAdmin: req.body.qualityAdmin,
-        configAdmin: req.body.configAdmin,
+        coscomAdmin: false,
+        qualityAdmin: false,
+        configAdmin: false,
       });
       user.save()
         .then(() => res.status(201).json({
