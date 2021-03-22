@@ -42,6 +42,7 @@ exports.login = (req, res, next) => {
               error: 'Mot de passe incorrect'
             });
           }
+          let expiresIn = 3600; // Expiration en secondes
           res.status(200).json({
             userId: user._id,
             rights: user.rights,
@@ -50,10 +51,10 @@ exports.login = (req, res, next) => {
                 userId: user._id
               },
               'RANDOM_TOKEN_SECRET', {
-                expiresIn: '24h'
+                expiresIn: expiresIn
               }
             ),
-            expiresIn: '24h',
+            expiresIn: expiresIn,
           });
         })
         .catch(error => res.status(500).json(error));
@@ -82,7 +83,9 @@ exports.setRights = (req, res, next) => {
           .catch(
             (error) => {
               res.status(400).json({
-                error: {message: `Échec de l'update du user ${req.params.id}`}
+                error: {
+                  message: `Échec de l'update du user ${req.params.id}`
+                }
               })
             }
           )
@@ -91,7 +94,9 @@ exports.setRights = (req, res, next) => {
     .catch(
       (error) => {
         res.status(404).json({
-          error: {message: `Utilisateur ${req.params.id} non trouvé`},
+          error: {
+            message: `Utilisateur ${req.params.id} non trouvé`
+          },
         })
       }
     );
