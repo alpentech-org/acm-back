@@ -20,13 +20,9 @@ exports.signup = (req, res, next) => {
         .then(() => res.status(201).json({
           message: 'Utilisateur créé'
         }))
-        .catch(error => res.status(400).json({
-          error
-        }));
+        .catch(error => res.status(400).json(error));
     })
-    .catch(error => res.status(500).json({
-      error
-    }));
+    .catch(error => res.status(500).json(error));
 };
 
 exports.login = (req, res, next) => {
@@ -58,13 +54,9 @@ exports.login = (req, res, next) => {
             expiresIn: '24h',
           });
         })
-        .catch(error => res.status(500).json({
-          error
-        }));
+        .catch(error => res.status(500).json(error));
     })
-    .catch(error => res.status(500).json({
-      error
-    }));
+    .catch(error => res.status(500).json(error));
 };
 
 exports.setRights = (req, res, next) => {
@@ -114,9 +106,7 @@ exports.deleteUser = (req, res, next) => {
     }
   ).catch(
     (error) => {
-      res.status(400).json({
-        error: error
-      });
+      res.status(400).json(error);
     }
   );
 };
