@@ -8,7 +8,7 @@ exports.getConfigRights = (req, res, next, id) => {
       _id: id
     }).then(
       (user) => {
-        if (user.configAdmin) {
+        if (user.rights && user.rights.configAdmin) {
           next()
         } else {
           res.status(401).json({

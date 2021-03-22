@@ -10,9 +10,11 @@ exports.signup = (req, res, next) => {
         login: req.body.login,
         email: req.body.email,
         password: hash,
-        coscomAdmin: false,
-        qualityAdmin: false,
-        configAdmin: false,
+        rights: {
+          coscomAdmin: false,
+          qualityAdmin: false,
+          configAdmin: false,
+        },
       });
       user.save()
         .then(() => res.status(201).json({
@@ -70,10 +72,12 @@ exports.setRights = (req, res, next) => {
       _id: req.params.id
     }).then(
       (user) => {
-        user.coscomAdmin = req.body.coscomAdmin ? true : false;
-        user.qualityAdmin = req.body.qualityAdmin ? true : false;
-        if (req.body.configAdmin) {
-          user.configAdmin = true;
+        if (req.body.rights) {
+          user.rights.coscomAdmin = req.body.rights.coscomAdmin ? true : false;
+          user.rights.qualityAdmin = req.body.rights.qualityAdmin ? true : false;
+          if (req.body.rights.configAdmin) {
+            user.rights.configAdmin = true;
+          }
         }
         user.save()
           .then(
@@ -84,7 +88,7 @@ exports.setRights = (req, res, next) => {
           .catch(
             (error) => {
               res.status(400).json({
-                error: error
+                error: {message: `Échec de l'update du user ${req.params.id}`}
               })
             }
           )
@@ -93,7 +97,7 @@ exports.setRights = (req, res, next) => {
     .catch(
       (error) => {
         res.status(404).json({
-          error: error,
+          error: {message: `Utilisateur ${req.params.id} non trouvé`},
         })
       }
     );
