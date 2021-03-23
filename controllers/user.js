@@ -141,3 +141,23 @@ exports.getAllUsers = (req, res, next) => {
     }
   );
 };
+
+exports.getUserById = (req, res, next) => {
+  let id = req.params.id;
+  if (!id) {
+    res.status(404).json({
+      message: `User with id ${id} node found`
+    });
+  }
+  User.findOne({
+    _id: id
+  }).then(
+    (user) => {
+      res.status(200).json(user);
+    }
+  ).catch(
+    (error) => {
+      res.status(400).json(error);
+    }
+  );
+}
