@@ -3,12 +3,12 @@ const jwt = require('jsonwebtoken');
 
 const User = require('../models/User');
 
-exports.getConfigRights = (req, res, next, id) => {
+exports.getRights = (req, res, next, id, adminCat) => {
   User.findOne({
       _id: id
     }).then(
       (user) => {
-        if (user.rights && user.rights.configAdmin) {
+        if (user.rights && user.rights[adminCat + "Admin"]) {
           next()
         } else {
           res.status(401).json({

@@ -9,7 +9,7 @@ module.exports = (req, res, next) => {
     if (req.body.userId && req.body.userId !== userId) {
       throw 'Token utilisateur invalide';
     } else {
-      authService.getConfigRights(req, res, next, userId);
+      authService.getRights(req, res, next, userId, 'config');
     }
   } catch {
     res.status(401).json({
