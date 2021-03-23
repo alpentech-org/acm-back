@@ -66,7 +66,7 @@ exports.setRights = (req, res, next) => {
   let id = req.params.id;
   if (!id) {
     res.status(404).json({
-      message: `User with id ${id} node found`
+      message: `Champ id manquant ou mal défini`
     });
   }
   User.findOne({
@@ -112,7 +112,7 @@ exports.deleteUser = (req, res, next) => {
   let id = req.params.id;
   if (!id) {
     res.status(404).json({
-      message: `User with id ${id} node found`
+      message: `Champ id manquant ou mal défini`
     });
   }
   User.deleteOne({
@@ -146,7 +146,7 @@ exports.getUserById = (req, res, next) => {
   let id = req.params.id;
   if (!id) {
     res.status(404).json({
-      message: `User with id ${id} node found`
+      message: `Champ id manquant ou mal défini`
     });
   }
   User.findOne({
