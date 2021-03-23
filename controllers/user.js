@@ -63,8 +63,14 @@ exports.login = (req, res, next) => {
 };
 
 exports.setRights = (req, res, next) => {
+  let id = req.params.id;
+  if (!id) {
+    res.status(404).json({
+      message: `User with id ${id} node found`
+    });
+  }
   User.findOne({
-      _id: req.params.id
+      _id: id
     }).then(
       (user) => {
         if (req.body.rights) {
@@ -84,7 +90,7 @@ exports.setRights = (req, res, next) => {
             (error) => {
               res.status(400).json({
                 error: {
-                  message: `Échec de l'update du user ${req.params.id}`
+                  message: `Échec de l'update du user ${id}`
                 }
               })
             }
@@ -95,7 +101,7 @@ exports.setRights = (req, res, next) => {
       (error) => {
         res.status(404).json({
           error: {
-            message: `Utilisateur ${req.params.id} non trouvé`
+            message: `Utilisateur ${id} non trouvé`
           },
         })
       }
@@ -103,8 +109,14 @@ exports.setRights = (req, res, next) => {
 };
 
 exports.deleteUser = (req, res, next) => {
+  let id = req.params.id;
+  if (!id) {
+    res.status(404).json({
+      message: `User with id ${id} node found`
+    });
+  }
   User.deleteOne({
-    _id: req.params.id
+    _id: id
   }).then(
     () => {
       res.status(200).json({
