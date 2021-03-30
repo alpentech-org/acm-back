@@ -10,6 +10,7 @@ const auth = require('./middleware/auth')
 const machinePeeringRoutes = require('./routes/machinePeering');
 const userRoutes = require('./routes/user');
 const ellisettingRoutes = require('./routes/ellisetting');
+const coscomRoutes = require('./routes/coscom');
 
 const app = express();
 
@@ -39,6 +40,8 @@ app.use(bodyParser.json());
 app.use('/api/auth', userRoutes);
 
 app.use('/api/ellisetting', auth, ellisettingRoutes);
+
+app.use('/api/coscom', auth, coscomRoutes);
 
 app.use('/api/machinePeering', auth, machinePeeringRoutes);
 
