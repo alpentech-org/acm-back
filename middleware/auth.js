@@ -11,6 +11,7 @@ module.exports = (req, res, next) => {
       next();
     }
   } catch {
+    console.log('Échec Authentification');
     res.status(401).json({
       error: 'Requête invalide',
     });
