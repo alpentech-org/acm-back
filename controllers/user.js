@@ -82,9 +82,7 @@ exports.setRights = (req, res, next) => {
         }
         user.save()
           .then(
-            () => res.status(201).json({
-              message: 'Droits modifiés'
-            })
+            () => res.status(201).json(user)
           )
           .catch(
             (error) => {
