@@ -34,7 +34,7 @@ app.use(bodyParser.json());
 
 app.use('/api/auth', userRoutes);
 
-app.use('/api/ellisetting', ellisettingRoutes);
+app.use('/api/ellisetting', auth, ellisettingRoutes);
 
 app.use('/api/machinePeering', auth, machinePeeringRoutes);
 
