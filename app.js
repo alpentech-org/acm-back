@@ -9,6 +9,7 @@ const auth = require('./middleware/auth')
 // Routes
 const machinePeeringRoutes = require('./routes/machinePeering');
 const userRoutes = require('./routes/user');
+const ellisettingRoutes = require('./routes/ellisetting');
 
 const app = express();
 
@@ -32,6 +33,9 @@ app.use((req, res, next) => {
 app.use(bodyParser.json());
 
 app.use('/api/auth', userRoutes);
+
+app.use('/api/ellisetting', ellisettingRoutes);
+
 app.use('/api/machinePeering', auth, machinePeeringRoutes);
 
 app.use((req, res) => {
