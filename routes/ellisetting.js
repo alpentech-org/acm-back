@@ -4,5 +4,6 @@ const router = express.Router();
 const ellisettingCtrl = require('../controllers/ellisetting');
 
 router.get('/machines', ellisettingCtrl.getMachines);
+router.get('/machines/:id', ellisettingCtrl.getMachineById);
 
 module.exports = router;
