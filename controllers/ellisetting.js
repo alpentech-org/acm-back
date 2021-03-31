@@ -8,6 +8,7 @@ const ellisettingRequestHeaders = {
 }
 
 exports.getMachines = (req, res, next) => {
+
   axios.get(config.ellisettingUrl + '/machines', {
       headers: ellisettingRequestHeaders
     })
@@ -23,6 +24,7 @@ exports.getMachines = (req, res, next) => {
     .catch((error) => {
       res.status(500).json(error);
     });
+    
 };
 
 exports.getMachineById = (req, res, next) => {
