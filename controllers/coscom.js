@@ -53,7 +53,7 @@ exports.getMachines = (req, res, next) => {
 
     coscomRequest.on('requestCompleted', function() {
       connection.close();
-      res.json(machineList);
+      res.status(200).json(machineList);
     });
 
     connection.execSql(coscomRequest);
