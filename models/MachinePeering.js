@@ -11,10 +11,11 @@ const machinePeeringSchema = mongoose.Schema({
   },
   ellisettingId: {
     type: String,
-    required: [true, "L'Id ElliSetting est obligatoire"],
+    unique: true,
   },
   coscomId: {
     type: String,
+    unique: true,
   },
   coscomAutoMode: {
     type: Boolean,
