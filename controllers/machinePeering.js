@@ -9,9 +9,7 @@ exports.createMachinePeering = (req, res, next) => {
   });
   machinePeering.save().then(
     () => {
-      res.status(201).json({
-        message: 'MachinePeering saved successfully!'
-      });
+      res.status(201).json(machinePeering);
     }
   ).catch(
     (error) => {
