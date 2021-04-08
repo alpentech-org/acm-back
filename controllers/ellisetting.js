@@ -24,7 +24,7 @@ exports.getMachines = (req, res, next) => {
     .catch((error) => {
       res.status(500).json(error);
     });
-    
+
 };
 
 exports.getMachineById = (req, res, next) => {
@@ -41,6 +41,26 @@ exports.getMachineById = (req, res, next) => {
         } else {
           res.status(204).send();
         }
+      } else {
+        res.json({
+          error: 'Statut de la réponse d\'ellisetting != 200'
+        });
+      }
+    })
+    .catch((error) => {
+      res.status(500).json(error);
+    });
+
+};
+
+exports.getParts = (req, res, next) => {
+
+  axios.get(config.ellisettingUrl + '/pieces', {
+      headers: ellisettingRequestHeaders
+    })
+    .then((elliRes) => {
+      if (elliRes.status == 200) {
+        res.status(200).json(elliRes.data);
       } else {
         res.json({
           error: 'Statut de la réponse d\'ellisetting != 200'
