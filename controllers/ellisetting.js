@@ -72,3 +72,28 @@ exports.getParts = (req, res, next) => {
     });
 
 };
+
+exports.getMeasuresByTimeAndPart = (req, res, next) => {
+
+  if (!req.query || !req.query.start || !req.query.end || !req.query.partId) {
+    res.status(400).send({error: "Paramètre de requête manquant"});
+  }
+
+  let uri = config.ellisettingUrl + '/mesureHistoriques?q={"$and" : [{"date": { "$gt" : "' + req.query.start +
+    '"}},{"date": { "$lt" : "' + req.query.end + '"}},{"pieceId": { "$eq" : "' + req.query.partId + '"}}]}'
+  axios.get(uri, {
+      headers: ellisettingRequestHeaders
+    })
+    .then((elliRes) => {
+      if (elliRes.status == 200) {
+        res.status(200).json(elliRes.data);
+      } else {
+        res.json({
+          error: 'Statut de la réponse d\'ellisetting != 200'
+        });
+      }
+    })
+    .catch((error) => {
+      res.status(500).json(error);
+    });
+}
