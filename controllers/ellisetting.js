@@ -148,3 +148,17 @@ exports.getMeasures = (req, res, next) => {
       res.status(500).json(error);
     });
 }
+
+exports.getContexts = (req, res, next) => {
+  axios.get(config.ellisettingUrl + '/contextes', {
+    headers: ellisettingRequestHeaders
+  }).then((elliRes) => {
+    if (elliRes.status == 200) {
+      res.status(200).json(elliRes.data);
+    } else {
+      res.json({
+        error: 'Statut de la réponse d\'ellisetting != 200'
+      });
+    }
+  })
+}
