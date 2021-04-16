@@ -10,5 +10,6 @@ router.get('/measures', ellisettingCtrl.getMeasures);
 router.get('/measuresByTimeAndPart', ellisettingCtrl.getMeasuresByTimeAndPart);
 router.get('/measuresByTimeAndMachine', ellisettingCtrl.getMeasuresByTimeAndMachine);
 router.get('/contexts', ellisettingCtrl.getContexts);
+router.get('/dimensions', ellisettingCtrl.getDimensions);
 
 module.exports = router;

@@ -162,3 +162,24 @@ exports.getContexts = (req, res, next) => {
     }
   })
 }
+
+exports.getDimensions = (req, res, next) => {
+
+  if (!req.query || !req.query.partId) {
+    res.status(400).send({error: "Paramètre de requête manquant"});
+  }
+
+  let queryParam = (req.query.partId === 'all') ? '' : ('?pieceId=' + req.query.partId);
+
+  axios.get(config.ellisettingUrl + '/cotes' + queryParam, {
+    headers: ellisettingRequestHeaders
+  }).then((elliRes) => {
+    if (elliRes.status == 200) {
+      res.status(200).json(elliRes.data);
+    } else {
+      res.json({
+        error: 'Statut de la réponse d\'ellisetting != 200'
+      });
+    }
+  })
+}
