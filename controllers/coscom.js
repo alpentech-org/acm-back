@@ -137,7 +137,7 @@ exports.getStatusList = (req, res, next) => {
 
   connection.on('connect', function(err) {
     let coscomRequest = new Request('\
-    SELECT TSF_RES_INTERVAL.RES_ID, TRS_RES.DISPLAYNAME_FR, TSF_RES_INTERVAL.BEGIN_TS, TSF_RES_INTERVAL.END_TS, TRS_RES_STATUS.RES_STATUS_ID, TRS_RES_STATUS.DISPLAYNAME_FR, TSF_RES_INTERVAL.KOMMENTAR\
+    SELECT TSF_RES_INTERVAL.RES_ID, TRS_RES.DISPLAYNAME_FR, TSF_RES_INTERVAL.BEGIN_TS, TSF_RES_INTERVAL.END_TS, TRS_RES_STATUS.RES_STATUS_ID, TRS_RES_STATUS.DISPLAYNAME_FR, TRS_RES_STATUS.RES_STATUS_COLOR, TSF_RES_INTERVAL.KOMMENTAR\
     FROM (TSF_RES_INTERVAL INNER JOIN TRS_RES ON TSF_RES_INTERVAL.RES_ID = TRS_RES.RES_ID) INNER JOIN TRS_RES_STATUS ON TSF_RES_INTERVAL.RES_STATUS_ID = TRS_RES_STATUS.RES_STATUS_ID\
     WHERE (((TRS_RES.RES_ID)=\'' + req.query.machineId + '\') AND ((TSF_RES_INTERVAL.END_TS)>=\'' + formattedStart + '\') AND ((TSF_RES_INTERVAL.BEGIN_TS)<=\'' + formattedEnd + '\'))\
     ORDER BY TRS_RES.DISPLAYNAME_FR, TSF_RES_INTERVAL.CAL_DAY, TSF_RES_INTERVAL.BEGIN_TS;\
@@ -164,6 +164,8 @@ exports.getStatusList = (req, res, next) => {
         } else if (i === 5) {
           status.statusName = column.value;
         } else if (i === 6) {
+          status.statusColor = column.value;
+        } else if (i === 7) {
           status.comment = column.value;
         }
         i++;
