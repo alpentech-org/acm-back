@@ -127,8 +127,8 @@ exports.getStatusList = (req, res, next) => {
     });
   }
 
-  let formattedStart = moment(req.query.start).format('YYYY-MM-DD HH:mm:ss.SSS');
-  let formattedEnd = moment(req.query.end).format('YYYY-MM-DD HH:mm:ss.SSS');
+  let formattedStart = moment(req.query.start).toISOString().substring(0,23).replace('T', ' ');
+  let formattedEnd = moment(req.query.end).toISOString().substring(0,23).replace('T', ' ');
 
   var connection = new Connection(sqlConfig);
   // connection.on('debug', msg => {
