@@ -1,6 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
+const path = require('path');
 
 const config = require('./config/config');
 
@@ -36,6 +37,9 @@ app.use((req, res, next) => {
   }
 });
 
+// Point static path to dist
+app.use(express.static(path.join(__dirname, 'dist/alpen-front')));
+
 app.use(bodyParser.json());
 
 app.use('/api/auth', userRoutes);
@@ -47,6 +51,11 @@ app.use('/api/coscom', auth, coscomRoutes);
 app.use('/api/machinePeering', auth, machinePeeringRoutes);
 
 app.use('/api/contexts', auth, contextsRoutes);
+
+// Catch all other routes and return the index file
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'dist/alpen-front/index.html'));
+});
 
 app.use((req, res) => {
   res.json({
