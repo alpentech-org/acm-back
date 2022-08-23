@@ -15,6 +15,7 @@ exports.signup = (req, res, next) => {
           qualityAdmin: false,
           configAdmin: false,
         },
+        favorites: ["glace au chocolat"], //Favoris random afin de voir si ça fonctionne
       });
       user.save()
         .then(() => res.status(201).json({
@@ -42,11 +43,12 @@ exports.login = (req, res, next) => {
               error: 'Mot de passe incorrect'
             });
           }
-          let expiresIn = 3600; // Expiration en secondes
+          let expiresIn = 15000; // 4*3600; // Expiration en secondes
           res.status(200).json({
             userId: user._id,
             rights: user.rights,
             login: user.login,
+            favorites: user.favorites,
             token: jwt.sign({
                 userId: user._id
               },
@@ -79,6 +81,52 @@ exports.setRights = (req, res, next) => {
           if (req.body.rights.configAdmin) {
             user.rights.configAdmin = true;
           }
+        }
+        user.save()
+          .then(
+            () => res.status(201).json(user)
+          )
+          .catch(
+            (error) => {
+              res.status(400).json({
+                error: {
+                  message: `Échec de l'update du user ${id}`
+                }
+              })
+            }
+          )
+      }
+    )
+    .catch(
+      (error) => {
+        res.status(404).json({
+          error: {
+            message: `Utilisateur ${id} non trouvé`
+          },
+        })
+      }
+    );
+};
+
+exports.setFavorites = (req, res, next) => {
+  let id = req.params.id;
+  if (!id) {
+    res.status(404).json({
+      message: `Champ id manquant ou mal défini`
+    });
+  }
+  User.findOne({
+      _id: id
+    }).then(
+      (user) => {
+        if (req.body.favorites) {
+
+          console.log(user.favorites)
+          user.favorites = req.body.favorites;
+        } else {
+          () => res.status(418).json({
+            message: "Je n'ai pas trouvé de favoris dans la requête"
+            });
         }
         user.save()
           .then(

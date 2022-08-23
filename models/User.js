@@ -34,7 +34,10 @@ const userSchema = mongoose.Schema({
       default: false,
       required: true,
     },
-  }
+  },
+  favorites: [{
+    type: String,
+  }],
 });
 
 userSchema.path('email').validate(function(email) {
