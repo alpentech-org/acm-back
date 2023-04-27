@@ -1,4 +1,4 @@
-const config = require('../config/config');
+const config = require('../../config/config');
 const moment = require('moment');
 const Connection = require('tedious').Connection;
 const Request = require('tedious').Request;
