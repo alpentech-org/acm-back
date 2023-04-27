@@ -1,0 +1,183 @@
+{
+  "openapi": "3.0.1",
+  "info": {},
+  "servers": [
+    {
+      "url": "http://srvpi-ttt:3099"
+    }
+  ],
+  "paths": {
+    "/api/machinePeering/:id": {
+      "put": {
+        "description": "Modifier les droits d'un utilisateur",
+        "parameters": [
+          {
+            "name": "Token d'authentification",
+            "in": "Authentication header (Bearer token)",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "Token d'authentification",
+              "example": "XXXX.YYYY.ZZZZ"
+            }
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "Identifiant de la paire",
+              "example": "0123456789abcdef01234567"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Paire"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Droit modifié avec succès",
+            "content": {
+              "application/json; charset=utf-8": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/success"
+                },
+                "examples": {
+                  "Droit modifié": {
+                    "$ref": "#/components/schemas/success"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Pas autorisé",
+            "content": {
+              "application/json; charset=utf-8": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "object",
+                      "properties": {
+                        "message": {
+                          "type": "string",
+                          "description": "Message d'erreur",
+                          "example": "Requête invalide"
+                        }
+                      }
+                    }
+                  }
+                },
+                "examples": {
+                  "Pas authentifié": {
+                    "value": {
+                      "error": "Requête invalide"
+                    }
+                  },
+                  "Droit insuffisant": {
+                    "value": {
+                      "error": "Droits insuffisants"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "404": {
+          "description": "Si le droit spécifié n'existe pas",
+          "content": {
+            "application/json; charset=utf-8": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "error": {
+                    "type": "object",
+                    "properties": {
+                      "message": {
+                        "type": "string",
+                        "description": "Message d'erreur",
+                        "example": "Cannot read property 'rights' of null"
+                      }
+                    }
+                  }
+                }
+              },
+              "examples": {
+                "Droit introuvable": {
+                  "value": {
+                    "error": {
+                      "message": "Cannot read property 'rights' of null"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "servers": [
+          {
+            "url": "http://srvpi-ttt:3099"
+          }
+        ]
+      },
+      "servers": [
+        {
+          "url": "http://srvpi-ttt:3099"
+        }
+      ]
+    }
+  },
+  "components": {
+    "schemas": {
+      "Paire": {
+        "type": "object",
+        "properties": {
+          "ellisettingId": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "coscomId": {
+            "type": "string"
+          },
+          "coscomAutoMode": {
+            "type": "boolean"
+          }
+        }
+      },
+      "success": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "description": "Message de succès",
+            "example": "MachinePeering updated successfully!"
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    }
+  }
+}

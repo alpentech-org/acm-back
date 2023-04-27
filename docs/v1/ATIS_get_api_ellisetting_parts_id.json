@@ -1,0 +1,161 @@
+{
+  "openapi": "3.0.1",
+  "info": {},
+  "servers": [
+    {
+      "url": "http://srvpi-ttt:3099"
+    }
+  ],
+  "paths": {
+    "/api/ellisetting/parts/:id": {
+      "get": {
+        "description": "Récupère les informations d'une pièce spécifique à partir de son ID",
+        "parameters": [
+          {
+            "name": "Token d'authentification",
+            "in": "Authentication header (Bearer token)",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "Token d'authentification",
+              "example": "XXXX.YYYY.ZZZZ"
+            }
+          },
+          {
+            "in": "path",
+            "name": "id",
+            "description": "ID de la pièce à récupérer",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Informations de la pièce demandée",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Part"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "no Content (Aucune donnée de pièce trouvée avec cet ID)"
+          },
+          "401": {
+            "description": "Non authentifié - jwt en authentication bearer token manquant ou invalide",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "example": "Requête invalide"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "servers": [
+          {
+            "url": "http://srvpi-ttt:3099"
+          }
+        ]
+      },
+      "servers": [
+        {
+          "url": "http://srvpi-ttt:3099"
+        }
+      ]
+    }
+  },
+  "components": {
+    "schemas": {
+      "NotFoundError": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "status": {
+            "type": "integer"
+          }
+        }
+      },
+      "UnauthorizedError": {
+        "type": "object",
+        "properties": {
+          "error": {
+            "type": "string",
+            "description": "Erreur",
+            "value": "Requête invalide"
+          }
+        }
+      },
+      "Part": {
+        "type": "object",
+        "properties": {
+          "_id": {
+            "description": "Identifiant unique de la pièce",
+            "type": "string"
+          },
+          "siteId": {
+            "description": "Identifiant(s) du/des site(s) où la pièce est utilisée",
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "nom": {
+            "description": "Nom de la pièce",
+            "type": "string"
+          },
+          "operation": {
+            "description": "Nom de l'opération associée à la pièce",
+            "type": "string"
+          },
+          "reference": {
+            "description": "Référence de la pièce",
+            "type": "string"
+          },
+          "statut": {
+            "description": "Statut de la pièce",
+            "type": "string"
+          },
+          "ordre": {
+            "description": "Ordre de la pièce",
+            "type": "integer"
+          },
+          "familleMachineId": {
+            "description": "Identifiant de la famille de machine associée à la pièce",
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    }
+  }
+}

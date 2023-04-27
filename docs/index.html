@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>ATIS API</title>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+
+  <meta name="description" content="Documentation de l'api d'Alpen'Tech Industry Software">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+  <link rel="stylesheet" type="text/css" href="//unpkg.com/swagger-ui-dist/swagger-ui.css" />
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/docsify@4/lib/themes/vue.css">
+  <link rel="stylesheet" href="./css/customSwagger.css">
+  <script src="//cdn.jsdelivr.net/npm/vue@3/dist/vue.global.js"></script>
+  <script src="https://code.jquery.com/jquery-3.6.4.min.js"
+    integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8=" crossorigin="anonymous"></script>
+  <script src="//unpkg.com/swagger-ui-dist/swagger-ui-bundle.js"></script>
+
+</head>
+
+<body>
+  <div id="app">Chargement ...</div>
+
+  <script>
+    window.$docsify = {
+      externalScript: true,
+      name: 'ATIS API v1.0',
+      repo: 'https://github.com/alpentech-org/acm-back',
+      loadSidebar: true,
+      subMaxLevel: 4,
+      notFoundPage: true,
+      themeColor: '#3F51B5',
+      sidebarDisplayLevel: 1,
+      colorPattern: {
+        patterns : {
+          "code": "E96900"
+        }
+      }
+    }
+  </script>
+  <!-- Docsify v4 -->
+  <script src="//cdn.jsdelivr.net/npm/docsify@4"></script>
+  <script src="//cdn.jsdelivr.net/npm/docsify/lib/docsify.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/docsify/lib/plugins/external-script.min.js"></script>
+  <script src="./scripts/docsify-plugin-swaggerGenerator.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/docsify-sidebar-collapse/dist/docsify-sidebar-collapse.min.js"></script>
+  <script src="./scripts/docsify-plugin-colorPattern.js"></script>
+  <style>
+    body:not(.ready) {
+      overflow-y: auto;
+    }
+
+    .swagger-ui code {
+      background-color: #333;
+      color: white;
+    }
+  </style>
+
+</body>
+
+</html>

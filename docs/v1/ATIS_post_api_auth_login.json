@@ -1,0 +1,191 @@
+{
+  "openapi": "3.0.1",
+  "info": {},
+  "servers": [
+    {
+      "url": "http://srvpi-ttt:3099"
+    }
+  ],
+  "paths": {
+    "/api/auth/login": {
+      "post": {
+        "description": "Connexion d'un utilisateur",
+        "parameters": [
+          {
+            "name": "login",
+            "in": "requestBody",
+            "description": "Login de l'utilisateur",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "$ref": "#/components/schemas/auth_login_body/properties/login"
+            }
+          },
+          {
+            "name": "password",
+            "in": "requestBody",
+            "description": "Mot de passe de l'utilisateur",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "$ref": "#/components/schemas/auth_login_body/properties/password"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/auth_login_body"
+              },
+              "examples": {
+                "Données correctes": {
+                  "value": "{\n    \"login\": \"jdoe\",\n    \"password\": \"azerty123\"\n\n}"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Requête réussie",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/auth_login_success"
+                },
+                "examples": {
+                  "Connexion réussi": {
+                    "summary": "Connexion réussie",
+                    "value": {
+                      "userId": "USER_ID",
+                      "rights": {
+                        "coscomAdmin": "<true|false>",
+                        "qualityAdmin": "<true|false>",
+                        "configAdmin": "<true|false>"
+                      },
+                      "login": "jdoe",
+                      "token": "JWT_TOKEN",
+                      "expiresIn": 3600
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Requête invalide",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/auth_login_failed"
+                },
+                "examples": {
+                  "Utilisateur incorrect": {
+                    "summary": "Utilisateur incorrect",
+                    "value": {
+                      "error": "Utilisateur non trouvé"
+                    }
+                  },
+                  "Mot de passe incorrect": {
+                    "summary": "Mot de passe incorrect",
+                    "value": {
+                      "error": "Mot de passe incorrect"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        
+        "servers": [
+          {
+            "url": "http://srvpi-ttt:3099"
+          }
+        ]
+      },
+      "servers": [
+        {
+          "url": "http://srvpi-ttt:3099"
+        }
+      ]
+    }
+  },
+  "components": {
+    "schemas": {
+      "auth_login_body": {
+        "type": "object",
+        "properties": {
+          "password": {
+            "type": "string",
+            "description": "Mot de passe de l'utilisateur",
+            "example": "azerty123"
+          },
+          "login": {
+            "type": "string",
+            "description": "Login de l'utilisateur",
+            "example": "jdoe"
+          }
+        }
+      },
+      "auth_login_success":
+      {
+        "type": "object",
+        "properties": {
+          "userId" : {
+            "type": "string",
+            "description": "Identifiant de l'utilisateur",
+            "example": "1ab23cd48ds9"
+          },
+          "rights":{
+            "type": "object",
+            "properties": {
+              "coscomAdmin" : {
+                "type": "boolean",
+                "description": "Droits d'administration COSCOM",
+                "example": "true | false"
+              },
+              "qualityAdmin" : {
+                "type": "boolean",
+                "description": "Droits d'administration Qualité",
+                "example": "true | false"
+              },
+              "configAdmin" : {
+                "type": "boolean",
+                "description": "Droits d'administration Configuration",
+                "example": "true | false"
+              }
+            }
+          },
+          "login" : {
+            "type" : "string",
+            "description" : "Login de l'utilisateur",
+            "example" :"jdoe"
+          },
+          "token" : {
+            "type" : "string",
+            "description" : "Token d'authentification",
+            "example" : "xxxxx.yyyyy.zzzzz"
+          },
+          "expiresIn" : {
+            "type" : "integer",
+            "description" : "Durée de validité du token en secondes",
+            "example" : "3600"
+          }
+        }
+      },
+      "auth_login_failed":
+      {
+        "type": "object",
+        "properties": {
+          "error" : {
+            "type" : "string",
+            "description" : "Erreur rencontrée",
+            "example" : "Utilisateur non trouvé | Mot de passe incorrect"
+          }
+        }
+      }
+    }
+  }
+}

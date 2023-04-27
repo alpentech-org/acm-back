@@ -1,0 +1,104 @@
+{
+  "openapi": "3.0.1",
+  "info": {},
+  "servers": [
+    {
+      "url": "http://srvpi-ttt:3099"
+    }
+  ],
+  "paths": {
+    "/api/ellisetting/machines/:id": {
+      "get": {
+        "summary": "Récupérer les données d'une machine ellisettings grâce à son id",
+        "description": "Cette route permet de récupérer les données d'une machine ellisettings grâce à son id",
+        "parameters": [
+          {
+            "name": "Token d'authentification",
+            "in": "Authentication header (Bearer token)",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "Token d'authentification",
+              "example": "XXXX.YYYY.ZZZZ"
+            }
+          },
+          {
+            "in": "path",
+            "name": "id",
+            "description": "ID de la machine ellisettings",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "0a1b2c3d4e5f"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Données de la machine ellisettings récupérées avec succès",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "_id": {
+                      "type": "string",
+                      "example": "0a1b2c3d4e5f"
+                    },
+                    "nom": {
+                      "type": "string",
+                      "example": "NAME"
+                    },
+                    "ordre": {
+                      "type": "integer",
+                      "example": 4
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "no Content (Aucune donnée de machine ellisettings trouvée avec cet ID)"
+          },
+          "401": {
+            "description": "Non authentifié - jwt en authentication bearer token manquant ou invalide",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "example": "Requête invalide"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "servers": [
+          {
+            "url": "http://srvpi-ttt:3099"
+          }
+        ]
+      },
+      "servers": [
+        {
+          "url": "http://srvpi-ttt:3099"
+        }
+      ]
+    }
+  },
+  "components": {
+    "schemas": {},
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    }
+  }
+}

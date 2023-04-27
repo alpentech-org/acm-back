@@ -1,0 +1,105 @@
+{
+  "openapi": "3.0.1",
+  "info": {},
+  "servers": [
+    {
+      "url": "http://srvpi-ttt:3099"
+    }
+  ],
+  "paths": {
+    "/api/machinePeering/:id": {
+      "delete": {
+        "tags": [
+          "Machine Peering"
+        ],
+        "summary": "Supprime une paire de machines Coscom / Ellisetting.",
+        "description": "Supprime la paire de machines correspondant à l'ID spécifié.",
+        "operationId": "deleteMachinePeering",
+        "parameters": [
+          {
+            "name": "Token d'authentification",
+            "in": "Authentication header (Bearer token)",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "Token d'authentification",
+              "example": "XXXX.YYYY.ZZZZ"
+            }
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID de la paire de machines à supprimer",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "La paire de machines a été supprimée avec succès.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Message indiquant que la paire de machines a été supprimée avec succès."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Le JWT d'authentification est manquant ou invalide.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/invalidRequestError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+      "servers": [
+        {
+          "url": "http://srvpi-ttt:3099"
+        }
+      ]
+    },
+    "servers": [
+      {
+        "url": "http://srvpi-ttt:3099"
+      }
+    ]
+  }
+},
+"components": {
+  "schemas": {
+    "invalidRequestError": {
+      "type": "object",
+      "properties": {
+        "error": {
+          "type": "string",
+          "description": "Description de l'erreur survenue."
+        }
+      }
+    }
+  },
+  "securitySchemes": {
+    "bearerAuth": {
+      "type": "http",
+      "scheme": "bearer",
+      "bearerFormat": "JWT"
+    }
+  }
+}
+}

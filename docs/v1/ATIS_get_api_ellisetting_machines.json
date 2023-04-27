@@ -1,0 +1,124 @@
+{
+  "openapi": "3.0.1",
+  "info": {},
+  "servers": [
+    {
+      "url": "http://srvpi-ttt:3099"
+    }
+  ],
+  "paths": {
+    "/api/ellisetting/machines": {
+      "get": {
+        "summary": "Récupère toutes les machines ellisettings",
+        "parameters": [
+          {
+            "name": "Token d'authentification",
+            "in": "Authentication header (Bearer token)",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "Token d'authentification",
+              "example": "XXXX.YYYY.ZZZZ"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Retourne toutes les machines ellisettings",
+            "content": {
+              "application/json; charset=utf-8": {
+                "schema": {
+                  "type": "array",
+                  "$ref": "#/components/schemas/Array",
+                  "items": {
+                    "$ref": "#/components/schemas/Machine"
+                  }
+
+                },
+                "examples": {
+                  "Données récupérées avec succès": {
+                    "value": [
+                      {
+                        "_id": "0a1b2c3d4e5f",
+                        "nom": "NAME",
+                        "ordre": 4
+                      },
+                      {
+                        "_id": "ANOTHER_ID",
+                        "nom": "ANOTHER_NAME",
+                        "ordre": 6
+                      }
+                      
+                    ]
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Requête invalide",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "example": "Requête invalide"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "servers": [
+          {
+            "url": "http://srvpi-ttt:3099"
+          }
+        ]
+      },
+      "servers": [
+        {
+          "url": "http://srvpi-ttt:3099"
+        }
+      ]
+    }
+  },
+  "components": {
+    "schemas": {
+      "Machine": {
+        "type": "object",
+        "properties": {
+          "_id": {
+            "type": "string",
+            "example": "0a1b2c3d4e5f"
+          },
+          "nom": {
+            "type": "string",
+            "example": "NAME"
+          },
+          "ordre": {
+            "type": "integer",
+            "example": 4
+          }
+        }
+      },
+      "Array": {
+        "type": "array"
+      }
+    },
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    }
+  }
+}

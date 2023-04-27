@@ -1,0 +1,148 @@
+{
+  "openapi": "3.0.1",
+  "info": {},
+  "servers": [
+    {
+      "url": "http://srvpi-ttt:3099"
+    }
+  ],
+  "paths": {
+    "/api/coscom/statuslist": {
+      "get": {
+        "tags": [
+          "Coscom"
+        ],
+        "summary": "Retourne les informations les informations liée au status de production en fonction d'une machine donnée",
+        "parameters": [
+          {
+            "name": "Token d'authentification",
+            "in": "Authentication header (Bearer token)",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "Token d'authentification",
+              "example": "XXXX.YYYY.ZZZZ"
+            }
+          },
+          {
+            "in": "query",
+            "name": "start",
+            "description": "Heure de début de la recherche (format ISO 8601)",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "in": "query",
+            "name": "end",
+            "description": "Heure de fin de la recherche (format ISO 8601)",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "in": "query",
+            "name": "machineId",
+            "description": "Identifiant de la machine recherchée",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Information liée au statut de production associé à la machine spécifiée pour la période donnée",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "machineId": {
+                        "type": "string",
+                        "format": "uuid",
+                        "description": "Identifiant de la machine"
+                      },
+                      "machineName": {
+                        "type": "string",
+                        "description": "Nom de la machine"
+                      },
+                      "start": {
+                        "type": "string",
+                        "format": "date-time",
+                        "description": "Heure de début"
+                      },
+                      "end": {
+                        "type": "string",
+                        "format": "date-time",
+                        "description": "Heure de fin"
+                      },
+                      "statusId": {
+                        "type": "string",
+                        "description": "Identifiant du statut de production"
+                      },
+                      "statusName": {
+                        "type": "string",
+                        "description": "Nom du statut de production"
+                      },
+                      "statusColor": {
+                        "type": "string",
+                        "description": "Couleur associée au statut de production"
+                      },
+                      "comment": {
+                        "type": "string",
+                        "nullable": true,
+                        "description": "Remarque"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "Aucun statut associé à la machine n'a été trouvée pour l'identifiant donné"
+          },
+          "401": {
+            "description": "Non authentifié - jwt en authentication bearer token manquant ou invalide",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "example": "Requête invalide"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "servers": [
+        {
+          "url": "http://srvpi-ttt:3099"
+        }
+      ]
+    }
+  },
+  "components": {
+    "schemas": {},
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    }
+  }
+}
