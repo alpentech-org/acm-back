@@ -4,7 +4,8 @@
   "description": "BackEnd for Auto-Control Monitoring",
   "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "serve-docs": "docsify serve .\\docs --port 58147"
   },
   "author": "Théo GUILHIN",
   "license": "ISC",
