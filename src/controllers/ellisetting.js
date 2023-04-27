@@ -1,3 +1,4 @@
+
 const axios = require('axios').default;
 
 const config = require('../config/config');
@@ -72,6 +73,34 @@ exports.getParts = (req, res, next) => {
     });
 
 };
+
+exports.getPartById = (req, res, next) => {
+
+  let id = req.params.id;
+
+  axios.get(config.ellisettingUrl + '/pieces?_id=' + id, {
+      headers: ellisettingRequestHeaders
+    })
+    .then((elliRes) => {
+      if (elliRes.status == 200) {
+        if (elliRes.data.length) {
+          res.status(200).json(elliRes.data[0]);
+        } else {
+          res.status(204).send();
+        }
+      } else {
+        res.json({
+          error: 'Statut de la réponse d\'ellisetting != 200'
+        });
+      }
+    })
+    .catch((error) => {
+      res.status(500).json(error);
+    });
+
+};
+
+
 
 exports.getMeasuresByTimeAndPart = (req, res, next) => {
 
