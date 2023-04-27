@@ -159,9 +159,11 @@ APP.use('/api/machinePeering', AUTH_MIDDLEWARE, MACHINE_PEERING_ROUTES);
 APP.use('/api/contexts', AUTH_MIDDLEWARE, CONTEXTS_ROUTES);
 
 // Catch all other routes and return the index file
-APP.get('*', (req, res) => {
-  res.sendFile(PATH.join(__dirname, 'dist/alpen-front/index.html'));
-});
+if (CONFIG.env === 'PROD') {
+  APP.get('*', (req, res) => {
+    res.sendFile(PATH.join(__dirname, 'dist/alpen-front/index.html'));
+  });
+}
 
 APP.use((req, res) => {
   res.json({
