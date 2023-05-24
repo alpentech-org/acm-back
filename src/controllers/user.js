@@ -76,11 +76,9 @@ exports.setRights = (req, res, next) => {
   }).then(
     (user) => {
       if (req.body.rights) {
-        user.rights.coscomAdmin = req.body.rights.coscomAdmin ? true : false;
-        user.rights.qualityAdmin = req.body.rights.qualityAdmin ? true : false;
-        if (req.body.rights.configAdmin) {
-          user.rights.configAdmin = true;
-        }
+        if(req.body.rights.hasOwnProperty('coscomAdmin')) user.rights.coscomAdmin = req.body.rights.coscomAdmin;
+        if(req.body.rights.hasOwnProperty('qualityAdmin')) user.rights.qualityAdmin = req.body.rights.qualityAdmin;
+        if(req.body.rights.hasOwnProperty('configAdmin')) user.rights.configAdmin = req.body.rights.configAdmin;
       }
       user.save()
         .then(
