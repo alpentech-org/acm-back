@@ -9,11 +9,12 @@ module.exports = (req, res, next) => {
     if (req.body.userId && req.body.userId !== userId) {
       throw 'Token utilisateur invalide';
     } else {
-	  authService.getRights(req, res, next, userId, 'config');
+      authService.getRights(req, res, next, userId, 'config');
     }
-  } catch {
+  } catch (error) {
     res.status(401).json({
       error: 'Requête invalide',
     });
-  }
+  }  
+  
 };

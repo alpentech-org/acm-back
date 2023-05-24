@@ -84,7 +84,9 @@ exports.setRights = (req, res, next) => {
       }
       user.save()
         .then(
-          () => res.status(201).json(user)
+          () => res.status(201).json({
+            status: "done"
+          })
         )
         .catch(
           (error) => {
@@ -133,7 +135,10 @@ exports.deleteUser = (req, res, next) => {
 exports.getAllUsers = (req, res, next) => {
   User.find({}).then(
     (users) => {
-      res.status(200).json(users);
+      res.status(200).json(users.map(user => {
+        const { password, ...newUsers } = user;
+        return newUsers;
+      }));
     }
   ).catch(
     (error) => {
@@ -153,7 +158,7 @@ exports.getUserById = (req, res, next) => {
     _id: id
   }).then(
     (user) => {
-      res.status(200).json(user);
+      res.status(200).json(Object.fromEntries(Object.entries(user).filter(e => e[0] != 'password')));
     }
   ).catch(
     (error) => {
