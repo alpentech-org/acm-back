@@ -80,6 +80,7 @@ exports.setRights = (req, res, next) => {
         if(req.body.rights.hasOwnProperty('qualityAdmin')) user.rights.qualityAdmin = req.body.rights.qualityAdmin;
         if(req.body.rights.hasOwnProperty('configAdmin')) user.rights.configAdmin = req.body.rights.configAdmin;
       }
+      
       user.save()
         .then(
           () => res.status(201).json({
