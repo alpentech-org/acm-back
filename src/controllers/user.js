@@ -2,6 +2,7 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
 const User = require('../models/User');
+const config = require('../config/config');
 
 exports.signup = (req, res, next) => {
   bcrypt.hash(req.body.password, 10)
@@ -27,37 +28,38 @@ exports.signup = (req, res, next) => {
 
 exports.login = (req, res, next) => {
   User.findOne({
-      login: req.body.login
-    })
+    login: req.body.login
+  })
     .then(user => {
       if (!user) {
         return res.status(401).json({
-          error: 'Utilisateur non trouvé'
+          error: 'Login / Mot de passe incorrect'
         });
       }
       bcrypt.compare(req.body.password, user.password)
         .then(valid => {
           if (!valid) {
             return res.status(401).json({
-              error: 'Mot de passe incorrect'
+              error: 'Login / Mot de passe incorrect'
             });
           }
           let expiresIn = 3600; // Expiration en secondes
           res.status(200).json({
-            userId: user._id,
-            rights: user.rights,
-            login: user.login,
             token: jwt.sign({
-                userId: user._id
-              },
-              'RANDOM_TOKEN_SECRET', {
-                expiresIn: expiresIn
-              }
+              userId: user._id,
+              rights: user.rights,
+              login: user.login,
+            },
+              config.jwt_secret, {
+              expiresIn: expiresIn
+            }
             ),
             expiresIn: expiresIn,
           });
         })
-        .catch(error => res.status(500).json(error));
+        .catch(error => {
+          res.status(500).json(error)
+        });
     })
     .catch(error => res.status(500).json(error));
 };
@@ -70,31 +72,31 @@ exports.setRights = (req, res, next) => {
     });
   }
   User.findOne({
-      _id: id
-    }).then(
-      (user) => {
-        if (req.body.rights) {
-          user.rights.coscomAdmin = req.body.rights.coscomAdmin ? true : false;
-          user.rights.qualityAdmin = req.body.rights.qualityAdmin ? true : false;
-          if (req.body.rights.configAdmin) {
-            user.rights.configAdmin = true;
-          }
+    _id: id
+  }).then(
+    (user) => {
+      if (req.body.rights) {
+        user.rights.coscomAdmin = req.body.rights.coscomAdmin ? true : false;
+        user.rights.qualityAdmin = req.body.rights.qualityAdmin ? true : false;
+        if (req.body.rights.configAdmin) {
+          user.rights.configAdmin = true;
         }
-        user.save()
-          .then(
-            () => res.status(201).json(user)
-          )
-          .catch(
-            (error) => {
-              res.status(400).json({
-                error: {
-                  message: `Échec de l'update du user ${id}`
-                }
-              })
-            }
-          )
       }
-    )
+      user.save()
+        .then(
+          () => res.status(201).json(user)
+        )
+        .catch(
+          (error) => {
+            res.status(400).json({
+              error: {
+                message: `Échec de l'update du user ${id}`
+              }
+            })
+          }
+        )
+    }
+  )
     .catch(
       (error) => {
         res.status(404).json({

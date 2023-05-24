@@ -19,6 +19,7 @@ let config = {
     ellisettingUrl: process.env.ELLISETTING_URL,
     ellisettingApiKey: process.env.ELLISETTING_API_KEY,
     ellisettingUsername: process.env.ELLISETTING_USERNAME,
+    jwt_secret: process.env.JWT_SECRET
 }
 
 // module.exports permet de rendre l'objet config accessible depuis d'autres fichiers en utilisant require()
