@@ -1,0 +1,176 @@
+{
+  "openapi": "3.0.1",
+  "info": {},
+  "servers": [
+    {
+      "url": "http://srvpi-ttt:3099"
+    }
+  ],
+  "paths": {
+    "/api/ellisetting/measures": {
+      "get": {
+        "description": "Récupérer les mesures en fonction de la machine, de la pièce, de la date de début et de la date de fin",
+        "parameters": [
+          {
+            "name": "Token d'authentification",
+            "in": "Authentication header (Bearer token)",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "Token d'authentification",
+              "example": "XXXX.YYYY.ZZZZ"
+            }
+          },
+          {
+            "name": "machineId",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "PJdZi3BkR9sEbjM4T"
+            }
+          },
+          {
+            "name": "partId",
+            "in": "query",
+            "required": true,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "string",
+              "example": "xncCGY8K9kcn3Fvwe"
+            }
+          },
+          {
+            "name": "start",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "2023-04-24T02:15:00.000Z"
+            }
+            
+          },
+          {
+            "name": "end",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "2023-04-25T02:15:00.000Z"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Measure"
+                  }
+                }
+              }
+            }
+          },
+          
+          "401": {
+            "description": "Non authentifié - jwt en authentication bearer token manquant ou invalide",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "example": "Requête invalide"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "servers": [
+          {
+            "url": "http://srvpi-ttt:3099"
+          }
+        ]
+      },
+      "servers": [
+        {
+          "url": "http://srvpi-ttt:3099"
+        }
+      ]
+    }
+  },
+  "components": {
+    "schemas": {
+      "Measure": {
+        "type": "object",
+        "properties": {
+          "_id": {
+            "type": "string"
+          },
+          "values": {
+            "type": "array",
+            "items": {
+              "type": "number"
+            }
+          },
+          "nominal": {
+            "type": "number"
+          },
+          "tolerance_max": {
+            "type": "number"
+          },
+          "coteId": {
+            "type": "string"
+          },
+          "pieceId": {
+            "type": "string"
+          },
+          "machineId": {
+            "type": "string"
+          },
+          "lotId": {
+            "type": "string"
+          },
+          "contexteId": {
+            "type": "string"
+          },
+          "pilotageId": {
+            "type": "string"
+          },
+          "commentaire": {
+            "type": "string"
+          },
+          "date": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "client": {
+            "type": "string"
+          },
+          "user_name": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    }
+  }
+}

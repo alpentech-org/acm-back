@@ -1,0 +1,123 @@
+{
+  "openapi": "3.0.1",
+  "info": {},
+  "servers": [
+    {
+      "url": "http://srvpi-ttt:3099"
+    }
+  ],
+  "paths": {
+    "/api/machinePeering/:id": {
+      "get": {
+        "description": "Récupère les informations d'une paire spécifique à partir de son ID",
+        "parameters": [
+          {
+            "name": "Token d'authentification",
+            "in": "Authentication header (Bearer token)",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "Token d'authentification",
+              "example": "XXXX.YYYY.ZZZZ"
+            }
+          },
+          {
+            "in": "path",
+            "name": "id",
+            "description": "ID de la paire à récupérer",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Informations de la paire demandée",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Paire"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "no Content (Aucune paire n'a été trouvée avec cet ID)"
+          },
+          "401": {
+            "description": "Non authentifié - jwt en authentication bearer token manquant ou invalide",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "example": "Requête invalide"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "servers": [
+          {
+            "url": "http://srvpi-ttt:3099"
+          }
+        ]
+      },
+      "servers": [
+        {
+          "url": "http://srvpi-ttt:3099"
+        }
+      ]
+    }
+  },
+  "components": {
+    "schemas": {
+      "Paire":{
+        "type": "object",
+        "properties": {
+          "_id": {
+            "type": "string",
+            "description": "L'ID unique de la paire"
+          },
+          "name": {
+            "type": "string",
+            "description": "Le nom de la paire"
+          },
+          "ellisettingId": {
+            "type": "string",
+            "description": "L'ID unique de la machine Ellisetting"
+          },
+          "coscomId": {
+            "type": "string",
+            "description": "L'ID unique de la machine Coscom"
+          },
+          "coscomAutoMode": {
+            "type": "boolean",
+            "description": "Le mode automatique de la machine Coscom"
+          },
+          "__v": {
+            "type": "integer",
+            "description": "La version du document"
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    }
+  }
+}

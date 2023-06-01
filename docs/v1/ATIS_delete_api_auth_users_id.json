@@ -1,0 +1,103 @@
+{
+  "openapi": "3.0.1",
+  "info": {},
+  "servers": [
+    {
+      "url": "http://srvpi-ttt:3099"
+    }
+  ],
+  "paths": {
+    "/api/auth/users/:id": {
+      "delete": {
+        "description": "Supprime un utilisateur par son id",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "L'identifiant de l'utilisateur à supprimer",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "0123456789abcdef01234567"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "L'utilisateur a été supprimé avec succès",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Deleted!"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Non authentifié ou droits insuffisants",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "example": "Requête invalide"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "L'id de l'utilisateur est manquant ou introuvable",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "example": "Champ id manquant ou mal défini"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "servers": [
+          {
+            "url": "http://srvpi-ttt:3099"
+          }
+        ]
+      },
+      "servers": [
+        {
+          "url": "http://srvpi-ttt:3099"
+        }
+      ]
+    }
+  },
+  "components": {
+    "schemas": {},
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    }
+  }
+}

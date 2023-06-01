@@ -1,0 +1,99 @@
+{
+  "openapi": "3.0.1",
+  "info": {},
+  "servers": [
+    {
+      "url": "http://srvpi-ttt:3099"
+    }
+  ],
+  "paths": {
+    "/api/coscom/machines": {
+      "get": {
+        "description": "Récupère toutes les machines ellisettings",
+        "parameters": [
+          {
+            "name": "Token d'authentification",
+            "in": "Authentication header (Bearer token)",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "Token d'authentification",
+              "example": "XXXX.YYYY.ZZZZ"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Retourne toutes les machines Coscom",
+            "content": {
+              "application/json; charset=utf-8": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Machine"
+                  }
+
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Non authentifié - jwt en authentication bearer token manquant ou invalide",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "example": "Requête invalide"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "servers": [
+          {
+            "url": "http://srvpi-ttt:3099"
+          }
+        ]
+      },
+      "servers": [
+        {
+          "url": "http://srvpi-ttt:3099"
+        }
+      ]
+    }
+  },
+  "components": {
+    "schemas": {
+      "Machine": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "example": "0a1b2c3d4e5f"
+          },
+          "name": {
+            "type": "string",
+            "example": "NAME"
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    }
+  }
+}

@@ -1,0 +1,82 @@
+{
+  "openapi": "3.0.1",
+  "info": {},
+  "servers": [
+    {
+      "url": "http://srvpi-ttt:3099"
+    }
+  ],
+  "paths": {
+    "/api/contexts/adjustment": {
+      "get": {
+        "description": "Retourne les contextes d'arrêts d'une machine",
+        "parameters": [
+          {
+            "name": "Token d'authentification",
+            "in": "Authentication header (Bearer token)",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "Token d'authentification",
+              "example": "XXXX.YYYY.ZZZZ"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Retourne les contextes d'arrêts d'une machine",
+            "content": {
+              "application/json; charset=utf-8": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "enum": [
+                      "contexte"
+                    ]
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Pas authentifié",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "example": "Requête invalide"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      },
+      "servers": [
+        {
+          "url": "http://srvpi-ttt:3099"
+        }
+      ]
+    }
+  },
+  "components": {
+    "schemas": {},
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    }
+  }
+}

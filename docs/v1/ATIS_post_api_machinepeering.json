@@ -1,0 +1,202 @@
+{
+  "openapi": "3.0.1",
+  "info": {},
+  "servers": [
+    {
+      "url": "http://srvpi-ttt:3001"
+    }
+  ],
+  "paths": {
+    "/api/machinePeering/": {
+      "post": {
+        "description": "Créer une paire de machine Coscom / machine Ellisetting avec les informations données dans le corps de la requête.",
+        "parameters": [
+          {
+            "name": "Token d'authentification",
+            "in": "Authentication header (Bearer token)",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "Token d'authentification",
+              "example": "XXXX.YYYY.ZZZZ"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Données pour créer la paire de machine",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "ellisettingId": {
+                    "type": "string"
+                  },
+                  "coscomId": {
+                    "type": "string"
+                  },
+                  "coscomAutoMode": {
+                    "type": "boolean"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Paire de machine créée avec succès",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Paire"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Paire de machine déjà créée",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/MachinePeeringValidationError"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Non authentifié - jwt en authentication bearer token manquant ou invalide",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "example": "Requête invalide"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Paire": {
+        "type": "object",
+        "properties": {
+          "_id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "ellisettingId": {
+            "type": "string"
+          },
+          "coscomId": {
+            "type": "string"
+          },
+          "coscomAutoMode": {
+            "type": "boolean"
+          }
+        }
+      },
+      "ValidatorError": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Nom de l'erreur"
+          },
+          "message": {
+            "type": "string",
+            "description": "Message d'erreur"
+          },
+          "properties": {
+            "type": "object",
+            "description": "Propriétés de l'erreur",
+            "properties": {
+              "message": {
+                "type": "string",
+                "description": "Message détaillé de l'erreur"
+              },
+              "type": {
+                "type": "string",
+                "description": "Type d'erreur"
+              },
+              "path": {
+                "type": "string",
+                "description": "Chemin de l'erreur"
+              },
+              "value": {
+                "type": "string",
+                "description": "Valeur ayant provoqué l'erreur"
+              }
+            }
+          },
+          "kind": {
+            "type": "string",
+            "description": "Type d'erreur"
+          },
+          "path": {
+            "type": "string",
+            "description": "Chemin de l'erreur"
+          },
+          "value": {
+            "type": "string",
+            "description": "Valeur ayant provoqué l'erreur"
+          }
+        }
+      },
+      "MachinePeeringValidationError": {
+        "type": "object",
+        "properties": {
+          "errors": {
+            "type": "object",
+            "description": "Erreurs de validation",
+            "properties": {
+              "name": {
+                "$ref": "#/components/schemas/ValidatorError"
+              },
+              "coscomId": {
+                "$ref": "#/components/schemas/ValidatorError"
+              },
+              "ellisettingId": {
+                "$ref": "#/components/schemas/ValidatorError"
+              }
+            }
+          },
+          "_message": {
+            "type": "string",
+            "description": "Message d'erreur"
+          },
+          "name": {
+            "type": "string",
+            "description": "Nom de l'erreur"
+          },
+          "message": {
+            "type": "string",
+            "description": "Message d'erreur détaillé"
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    }
+  }
+}

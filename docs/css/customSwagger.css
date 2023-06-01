@@ -1,0 +1,55 @@
+
+.swaggerContainer.loading {
+
+    text-align: center;
+    color: #ddd ;
+    font-size: 24px;
+    width: 100%;
+    height: 5em;
+    margin-top: 12px;
+    border-radius: 7px;
+    background-image: linear-gradient(90deg, #ddd 0px, #efefef 40px, #ddd 80px);
+    background-size: 200%;
+
+    animation: shine-lines 6s infinite ease-in-out;
+}
+
+.swagger-ui .opblock-tag, .swagger-ui .scheme-container, .swagger-ui .try-out__btn, .swagger-ui .response-col_links, .swagger-ui .opblock-summary-description{
+  display: none;
+}
+
+.opblock-summary-control {
+  display: flex !important;
+  justify-content: space-between !important;
+}
+
+.bold {
+  font-weight: bold !important;
+}
+
+.opblock-summary-path {
+  float: left !important;
+  max-width: calc(100% - 110px - 2em)  !important;
+  width: 100%;
+}
+
+.swagger-ui .responses-table tbody .response{
+  background-color: transparent;
+
+}
+
+.highlight-code code {
+  color: #ddd !important;
+}
+
+@keyframes shine-lines {
+    0% {
+		background-position: 100%
+	}
+	50% {
+		background-position: -100%
+	}
+	100% {
+		background-position: 100%
+	}
+  }

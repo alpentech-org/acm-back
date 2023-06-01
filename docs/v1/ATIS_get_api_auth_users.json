@@ -1,0 +1,164 @@
+{
+  "openapi": "3.0.1",
+  "info": {},
+  "servers": [
+    {
+      "url": "http://srvpi-ttt:3099"
+    }
+  ],
+  "paths": {
+    "/api/auth/users": {
+      "get": {
+        "description": "Récupérer les données de tous les utilisateurs",
+        "parameters": [
+          {
+            "name": "Token d'authentification",
+            "in": "Authentication header (Bearer token)",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "Token d'authentification",
+              "example": "XXXX.YYYY.ZZZZ"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Données récupérées avec succès",
+            "content": {
+              "application/json; charset=utf-8": {
+                "schema": {
+                  "type": "array",
+                  "$ref": "#/components/schemas/utilisateurArray"
+                },
+                "examples": {
+                  "Données récupérées avec succès": {
+                    "value": [
+                      {
+                        "rights": {
+                          "coscomAdmin": false,
+                          "qualityAdmin": false,
+                          "configAdmin": false
+                        },
+                        "_id": "123456789abcdefg",
+                        "login": "jdoe",
+                        "email": "john.doe@alpen-tech.com",
+                        "password": "HASH",
+                        "__v": 0
+                      },
+                      {
+                        "rights": {
+                          "coscomAdmin": false,
+                          "qualityAdmin": true,
+                          "configAdmin": false
+                        },
+                        "_id": "ANOTHER_ID",
+                        "login": "ANOTHER_LOGIN",
+                        "email": "ANOTHER_EMAIL@alpen-tech.com",
+                        "password": "HASH",
+                        "__v": 0
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "",
+            "content": {
+              "application/json; charset=utf-8": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/erreur"
+                },
+                "examples": {
+                  "Pas authentifié": {
+                    "value": {
+                      "error": "Requête invalide"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "servers": [
+          {
+            "url": "http://srvpi-ttt:3099"
+          }
+        ]
+      },
+      "servers": [
+        {
+          "url": "http://srvpi-ttt:3099"
+        }
+      ]
+    }
+  },
+  "components": {
+    "schemas": {
+      "utilisateur": {
+        "type": "object",
+        "properties": {
+          "rights": {
+            "type": "object",
+            "properties": {
+              "coscomAdmin": {
+                "type": "boolean"
+              },
+              "qualityAdmin": {
+                "type": "boolean"
+              },
+              "configAdmin": {
+                "type": "boolean"
+              }
+            }
+          },
+          "_id": {
+            "type": "string"
+          },
+          "login": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string",
+            "format": "email"
+          },
+          "password": {
+            "type": "string"
+          },
+          "__v": {
+            "type": "integer"
+          }
+        }
+      },
+      "utilisateurArray": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/utilisateur"
+        }
+      },
+      "erreur": {
+        "type": "object",
+        "properties": {
+          "error": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    }
+  }
+}

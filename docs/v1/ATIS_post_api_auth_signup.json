@@ -1,0 +1,255 @@
+{
+  "openapi": "3.0.1",
+  "info": {},
+  "servers": [
+    {
+      "url": "http://srvpi-ttt:3099",
+      "description": "Serveur de développement"
+    }
+  ],
+  "paths": {
+    "/api/auth/signup": {
+      "post": {
+        "description": "Inscription d'un nouvel utilisateur.",
+        "parameters": [
+          {
+            "name": "login",
+            "in": "requestBody",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "$ref": "#/components/schemas/auth_signup_body/properties/login"
+            }
+          },
+          {
+            "name": "password",
+            "in": "requestBody",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "$ref": "#/components/schemas/auth_signup_body/properties/password"
+            }
+          },
+          {
+            "name": "email",
+            "in": "requestBody",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "$ref": "#/components/schemas/auth_signup_body/properties/email"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Objet JSON représentant l'utilisateur à créer.",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/auth_signup_body"
+              },
+              "examples": {
+                "Données correctes": {
+                  "value": "{\n    \"login\": \"jdoe\",\n    \"password\": \"azerty\",\n    \"email\": \"john.doe@alpen-tech.com\"\n\n}"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Utilisateur créé",
+            "content": {
+              "application/json; charset=utf-8": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Utilisateur créé"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Lorsque la validation des données de l'utilisateur échoue.",
+            "content": {
+              "application/json; charset=utf-8": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "errors": {
+                      "type": "object",
+                      "properties": {
+                        "login": {
+                          "type": "object",
+                          "properties": {
+                            "name": {
+                              "type": "string"
+                            },
+                            "message": {
+                              "type": "string"
+                            },
+                            "properties": {
+                              "type": "object",
+                              "properties": {
+                                "message": {
+                                  "type": "string"
+                                },
+                                "type": {
+                                  "type": "string"
+                                },
+                                "path": {
+                                  "type": "string"
+                                },
+                                "value": {
+                                  "type": "string"
+                                }
+                              }
+                            },
+                            "kind": {
+                              "type": "string"
+                            },
+                            "path": {
+                              "type": "string"
+                            },
+                            "value": {
+                              "type": "string"
+                            }
+                          }
+                        },
+                        "email": {
+                          "type": "object",
+                          "properties": {
+                            "name": {
+                              "type": "string"
+                            },
+                            "message": {
+                              "type": "string"
+                            },
+                            "properties": {
+                              "type": "object",
+                              "properties": {
+                                "message": {
+                                  "type": "string"
+                                },
+                                "type": {
+                                  "type": "string"
+                                },
+                                "path": {
+                                  "type": "string"
+                                },
+                                "value": {
+                                  "type": "string"
+                                }
+                              }
+                            },
+                            "kind": {
+                              "type": "string"
+                            },
+                            "path": {
+                              "type": "string"
+                            },
+                            "value": {
+                              "type": "string"
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "_message": {
+                      "type": "string"
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "errors",
+                    "_message",
+                    "name",
+                    "message"
+                  ]
+                },
+                "examples": {
+                  "validation_error": {
+                    "summary": "Exemple de réponse en cas d'erreur de validation",
+                    "value": {
+                      "errors": {
+                        "login": {
+                          "name": "ValidatorError",
+                          "message": "La propriété login doit être unique",
+                          "properties": {
+                            "message": "La propriété login doit être unique",
+                            "type": "unique",
+                            "path": "login",
+                            "value": "jdoe"
+                          },
+                          "kind": "unique",
+                          "path": "login",
+                          "value": "jdoe"
+                        },
+                        "email": {
+                          "name": "ValidatorError",
+                          "message": "La propriété email doit être unique",
+                          "properties": {
+                            "message": "La propriété email doit être unique",
+                            "type": "unique",
+                            "path": "email",
+                            "value": "john.doe@alpen-tech.com"
+                          },
+                          "kind": "unique",
+                          "path": "email",
+                          "value": "john.doe@alpen-tech.com"
+                        }
+                      },
+                      "_message": "User validation failed",
+                      "name": "ValidationError",
+                      "message": "User validation failed: login: La propriété login doit être unique, email: La propriété email doit être unique"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        
+        "servers": [
+          {
+            "url": "http://srvpi-ttt:3099",
+            "description": "Serveur de développement"
+          }
+        ]
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "auth_signup_body": {
+        "type": "object",
+        "properties": {
+          "login": {
+            "type": "string",
+            "description": "Le nom d'utilisateur de l'utilisateur à créer.",
+            "example": "jdoe"
+          },
+          "password": {
+            "type": "string",
+            "description": "Le mot de passe de l'utilisateur à créer.",
+            "example": "azerty123"
+          },
+          "email": {
+            "type": "string",
+            "description": "L'adresse email de l'utilisateur à créer.",
+            "example": "john.doe@alpen-tech.com"
+          }
+        }
+      }
+    }
+  }
+}

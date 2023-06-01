@@ -1,0 +1,229 @@
+{
+  "openapi": "3.0.1",
+  "info": {},
+  "servers": [
+    {
+      "url": "http://srvpi-ttt:3099"
+    }
+  ],
+  "paths": {
+    "/api/auth/users/setrights/:id": {
+      "put": {
+        "description": "Modifier les droits d'un utilisateur",
+        "parameters": [
+          {
+            "name": "Token d'authentification",
+            "in": "Authentication header (Bearer token)",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "Token d'authentification",
+              "example": "XXXX.YYYY.ZZZZ"
+            }
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "Identifiant de l'utilisateur",
+              "example": "0123456789abcdef01234567"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/rights"
+              },
+              "examples": {
+                "Modification du droit Coscom": {
+                  "value": "{\n    \"rights\": {\n        \"coscomAdmin\": true\n    }\n}"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Droit modifié avec succès",
+            "content": {
+              "application/json; charset=utf-8": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/success"
+                },
+                "examples": {
+                  "Droit modifié": {
+                    "$ref": "#/components/schemas/success"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Pas autorisé",
+            "content": {
+              "application/json; charset=utf-8": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "object",
+                      "properties": {
+                        "message": {
+                          "type": "string",
+                          "description": "Message d'erreur",
+                          "example": "Requête invalide"
+                        }
+                      }
+                    }
+                  }
+                },
+                "examples": {
+                  "Pas authentifié": {
+                    "value": {
+                      "error": "Requête invalide"
+                    }
+                  },
+                  "Droit insuffisant": {
+                    "value": {
+                      "error": "Droits insuffisants"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "404": {
+          "description": "Si le droit spécifié n'existe pas",
+          "content": {
+            "application/json; charset=utf-8": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "error": {
+                    "type": "object",
+                    "properties": {
+                      "message": {
+                        "type": "string",
+                        "description": "Message d'erreur",
+                        "example": "Cannot read property 'rights' of null"
+                      }
+                    }
+                  }
+                }
+              },
+              "examples": {
+                "Droit introuvable": {
+                  "value": {
+                    "error": {
+                      "message": "Cannot read property 'rights' of null"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "servers": [
+          {
+            "url": "http://srvpi-ttt:3099"
+          }
+        ]
+      },
+      "servers": [
+        {
+          "url": "http://srvpi-ttt:3099"
+        }
+      ]
+    }
+  },
+  "components": {
+    "schemas": {
+      "rights": {
+        "type": "object",
+        "properties": {
+          "coscomAdmin": {
+            "type": "boolean",
+            "description": "Droit liés à Coscom",
+            "example": "true | false"
+          },
+          "configAdmin": {
+            "type": "boolean",
+            "description": "Droit liés à la configuration",
+            "example": "true | false"
+          },
+          "qualityAdmin": {
+            "type": "boolean",
+            "description": "Droit liés à la qualité",
+            "example": "true | false"
+          }
+        }
+      },
+      "success": {
+        "type": "object",
+        "properties": {
+          "rights": {
+            "type": "object",
+            "properties": {
+              "coscomAdmin": {
+                "type": "boolean",
+                "description": "Droit liés à Coscom",
+                "example": "true | false"
+              },
+              "configAdmin": {
+                "type": "boolean",
+                "description": "Droit liés à la configuration",
+                "example": "true | false"
+              },
+              "qualityAdmin": {
+                "type": "boolean",
+                "description": "Droit liés à la qualité",
+                "example": "true | false"
+              }
+            }
+          },
+          "_id": {
+            "type": "string",
+            "description": "Identifiant de l'utilisateur",
+            "example": "0123456789abcdef01234567"
+          },
+          "login": {
+            "type": "string",
+            "description": "Login de l'utilisateur",
+            "example": "jdoe"
+          },
+          "email": {
+            "type": "string",
+            "description": "Email de l'utilisateur",
+            "example": "john.doe@alpen-tech.com"
+          },
+          "password": {
+            "type": "string",
+            "description": "Mot de passe de l'utilisateur",
+            "example": "HASH"
+          },
+          "__v": {
+            "type": "integer"
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    }
+  }
+}

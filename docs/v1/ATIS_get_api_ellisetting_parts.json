@@ -1,0 +1,123 @@
+{
+  "openapi": "3.0.1",
+  "info": {},
+  "servers": [
+    {
+      "url": "http://srvpi-ttt:3099"
+    }
+  ],
+  "paths": {
+    "/api/ellisetting/parts": {
+      "get": {
+        "summary": "Récupère les données de toutes les pièces.",
+        "parameters": [
+          {
+            "name": "Token d'authentification",
+            "in": "Authentication header (Bearer token)",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "Token d'authentification",
+              "example": "XXXX.YYYY.ZZZZ"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Part"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Non authentifié - jwt en authentication bearer token manquant ou invalide",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "example": "Requête invalide"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      },
+      "servers": [
+        {
+          "url": "http://srvpi-ttt:3099"
+        }
+      ]
+    }
+  },
+  "components": {
+    "schemas": {
+      "Part": {
+        "type": "object",
+        "properties": {
+          "_id": {
+            "description": "Identifiant unique de la pièce",
+            "type": "string"
+          },
+          "siteId": {
+            "description": "Identifiant(s) du/des site(s) où la pièce est utilisée",
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "nom": {
+            "description": "Nom de la pièce",
+            "type": "string"
+          },
+          "operation": {
+            "description": "Nom de l'opération associée à la pièce",
+            "type": "string"
+          },
+          "reference": {
+            "description": "Référence de la pièce",
+            "type": "string"
+          },
+          "statut": {
+            "description": "Statut de la pièce",
+            "type": "string"
+          },
+          "ordre": {
+            "description": "Ordre de la pièce",
+            "type": "integer"
+          },
+          "familleMachineId": {
+            "description": "Identifiant de la famille de machine associée à la pièce",
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    }
+  }
+}
